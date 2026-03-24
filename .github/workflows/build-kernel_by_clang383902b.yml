@@ -60,6 +60,7 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace
         mkdir clang-aosp
         git clone https://github.com/tomxi1997/Toolchain.git clang-aosp --depth=1
+        cd clang-aosp/google_clang
           
         
 
