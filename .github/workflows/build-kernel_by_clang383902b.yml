@@ -61,6 +61,8 @@ jobs:
         mkdir clang-aosp
         git clone https://github.com/tomxi1997/Toolchain.git clang-aosp --depth=1
         cd clang-aosp/google_clang
+        wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r536225.tar.gz
+        tar -zxfclang-r536225.tar.gz
           
         
 
@@ -174,11 +176,11 @@ jobs:
         fi
         
         if [ ${{ env.ENABLE_CCACHE }} = true ]; then
-            export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_clang/clang-r383902b-11.0.2/bin:$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_gcc/aarch64-linux-android-4.9/bin:$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_gcc/arm-linux-androideabi-4.9/bin:$PATH
+            export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_clang/clang-r536225/bin:$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_gcc/aarch64-linux-android-4.9/bin:$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_gcc/arm-linux-androideabi-4.9/bin:$PATH
             make -j$(nproc --all) CC="ccache clang" O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- ${{ env.KERNEL_CONFIG }}
             make -j$(nproc --all) CC="ccache clang" O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- 
         else
-            export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_clang/clang-r383902b-11.0.2/bin:$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_gcc/aarch64-linux-android-4.9/bin:$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_gcc/arm-linux-androideabi-4.9/bin:$PATH
+            export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_clang/clang-r536225/bin:$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_gcc/aarch64-linux-android-4.9/bin:$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/google_gcc/arm-linux-androideabi-4.9/bin:$PATH
             make -j$(nproc --all) CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- ${{ env.KERNEL_CONFIG }}
             make -j$(nproc --all) CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi-  
         fi
